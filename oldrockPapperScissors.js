@@ -1,3 +1,9 @@
+
+
+
+
+
+
 function getComputerChoice() {    
     switch (oneTwoOrThree()) {
         case 1: return 'rock'; 
@@ -53,7 +59,7 @@ function isValid(choice){
 }
 
 function game(){
-    for(let i=0;i<5;i++){
+    for(let i=0;i=i;i++){
         playRound()
     }
 }

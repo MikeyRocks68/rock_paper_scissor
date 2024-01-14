@@ -1,3 +1,26 @@
+let playerScore = '0';
+let computerScore ='0';
+
+const btns = document.querySelectorAll('button');
+btns.forEach(btn => {
+    switch(btn.textContent){
+        case 'reset':
+            btn.addEventListener('click', () => {
+                updateScoreBoard(0, 0);
+                const terminal = document.querySelector('#terminal');
+                terminal.textContent='>';
+             });
+            break;
+        default:
+            btn.addEventListener('click', () => {
+                game(btn.textContent);
+            });   
+            break;
+    }
+    
+});
+
+
 function getComputerChoice() {    
     switch (oneTwoOrThree()) {
         case 1: return 'rock'; 
@@ -6,6 +29,7 @@ function getComputerChoice() {
         //default: console.log(`Error computerChoice`);
     }
 }
+
 function oneTwoOrThree(){
     return Math.floor(Math.random()*3+1);
 }
@@ -14,6 +38,7 @@ function playRound(computerSelection, playerSelection) {
     //cleanup and check input
     computerSelection = cleanUpInput(computerSelection);
     playerSelection = cleanUpInput(playerSelection); 
+    
     if (!isValid(computerSelection) || !isValid(playerSelection)){
         console.log(`error choice invalid: 
             ${computerSelection} or ${playerSelection}`);
@@ -21,22 +46,19 @@ function playRound(computerSelection, playerSelection) {
 
     //determin winner
     if (computerSelection == playerSelection){
-        console.log(`Tie. No one wins. Idiot. 
-            computer:${computerSelection}  player:${playerSelection}.`);
-    }else if(beats(computerSelection) == playerSelection){
-        console.log(`You loose! ${computerSelection} beats ${playerSelection}.`);
-    }else if (beats(playerSelection == computerSelection)){
-        //what to do if player beats computer
-        console.log(`You win! ${playerSelection} beats ${computerSelection}.`);   
-    }else{        
-        console.log(`error determing winner
-            player:${playerSelection} 
-            computer:${computerSelection}`);
-    }
+        return 'tie';
+    }else if(playerSelection == beats(computerSelection)){
+        return 'computer';
+    }else if (computerSelection == beats(playerSelection) ){
+        return 'player';
+    }else{
+        return '';
+    };
+
     function beats(hand){
-        if(hand='scissor') return 'paper';
-        else if(hand = 'rock') return 'scissor';
-        else if(hand='paper') return 'rock';
+        if(hand =='scissor') return 'paper';
+        else if(hand == 'rock') return 'scissor';
+        else if(hand == 'paper') return 'rock';
     }
 }
 
@@ -51,8 +73,39 @@ function isValid(choice){
     return choices.includes(choice);
 }
 
-function game(){
-    for(let i=0;i<5;i++){
-        playRound(getComputerChoice(), prompt('rock paper scissor'));
-    }
+function game(playerSel){
+    let winner='';
+    let computerSel = getComputerChoice();
+    switch( playRound(computerSel, playerSel) )
+    {
+        case 'player':
+            playerScore++;
+            updateTerminal('You win!', playerSel, computerSel);
+            updateScoreBoard(playerScore, computerScore);
+            break;
+        case 'computer':
+            computerScore++;
+            updateTerminal('You loose!', playerSel, computerSel);
+            updateScoreBoard(playerScore, computerScore);
+            break;
+        case 'tie':
+            updateTerminal('Tie. No one wins...Idiot');
+            break;
+        case '':
+           updateTerminal('error determining winner');
+           break;
+    };    
+}
+
+function updateTerminal(text, playerSel, computerSel){
+    const terminal = document.querySelector('#terminal');
+    terminal.innerHTML= `> ${text} <br>
+    > player: ${playerSel}    computer: ${computerSel}`
+}
+
+function updateScoreBoard(pScore,cScore){
+    const SBComputer = document.querySelector('#computer');
+    const SBPlayer = document.querySelector('#player');
+    SBPlayer.textContent = pScore;
+    SBComputer.textContent = cScore;
 }

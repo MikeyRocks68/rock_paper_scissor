@@ -2,29 +2,28 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <title> My webpage</title>    
+        <title> My webpage</title>
+        <link rel = 'stylesheet' href ="style.css"/>    
     </head> 
-
     <body>
-        <h1><strong>strong</strong></h1>
-        <h1><em>em</em></h1>   
-        <h1><i>eye</i></h1>
-        <h1><b>eye</b></h1>
-
-    </body>
-    <body> 
-        <ul>
-            <li>can</li>
-            <li>I have</li>
-            <li>two</li>
-            <li>bodys</li>
-        </ul>
-        <ol>
-            <li>cats</li>
-            <li>taco</li>
-            <li>yodda</li>
-        </ol>
-        <script src="./rockPapperScissors.js"></script>                       
+        <div class="buttons">
+            <button>rock</button>
+            <button>paper</button>
+            <button>scissor</button>
+            <button>reset</button>
+        </div>
+        <div id="scoreboard">
+            <div class="score">
+                <p>COMPUTER</p>
+                <h1 id ="computer">0</h1>
+            </div>            
+            <div class="score">
+                <p>PLAYER</p>
+                <h1 id="player">0</h1>
+            </div>
+            </div>
+        <div id="terminal"></div>
+        <script src="rockPapperScissors.js" ></script>                       
     </body>
     
 </html>
