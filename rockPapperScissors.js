@@ -28,23 +28,29 @@ function getComputerChoice() {
         case 3: return 'scissor';
         //default: console.log(`Error computerChoice`);
     }
+    function oneTwoOrThree(){
+        return Math.floor(Math.random()*3+1);
+    }
+    
 }
 
-function oneTwoOrThree(){
-    return Math.floor(Math.random()*3+1);
-}
 
 function playRound(computerSelection, playerSelection) {    
-    //cleanup and check input
-    computerSelection = cleanUpInput(computerSelection);
-    playerSelection = cleanUpInput(playerSelection); 
-    
-    if (!isValid(computerSelection) || !isValid(playerSelection)){
-        console.log(`error choice invalid: 
-            ${computerSelection} or ${playerSelection}`);
+
+    function beats(hand){
+        if(hand =='scissor') return 'paper';
+        else if(hand == 'rock') return 'scissor';
+        else if(hand == 'paper') return 'rock';
     }
 
-    //determin winner
+    //cleanup and check input
+    computerSelection = cleanUpInput(computerSelection);
+    playerSelection = cleanUpInput(playerSelection);     
+    if (!isValid(computerSelection) || !isValid(playerSelection)){
+        return text = 'Choice invalid!';
+    }
+
+    //determine and return winner
     if (computerSelection == playerSelection){
         return 'tie';
     }else if(playerSelection == beats(computerSelection)){
@@ -55,11 +61,6 @@ function playRound(computerSelection, playerSelection) {
         return '';
     };
 
-    function beats(hand){
-        if(hand =='scissor') return 'paper';
-        else if(hand == 'rock') return 'scissor';
-        else if(hand == 'paper') return 'rock';
-    }
 }
 
 function cleanUpInput(str){
@@ -76,25 +77,26 @@ function isValid(choice){
 function game(playerSel){
     let winner='';
     let computerSel = getComputerChoice();
-    switch( playRound(computerSel, playerSel) )
+    switch( text = playRound(computerSel, playerSel) )
     {
-        case 'player':
+        case 'player':            
             playerScore++;
-            updateTerminal('You win!', playerSel, computerSel);
-            updateScoreBoard(playerScore, computerScore);
+            text = 'Player wins!'
             break;
         case 'computer':
             computerScore++;
-            updateTerminal('You loose!', playerSel, computerSel);
-            updateScoreBoard(playerScore, computerScore);
+            text = 'You loose!'
             break;
         case 'tie':
-            updateTerminal('Tie. No one wins...Idiot');
+            text = 'Tie. No one wins...Idiot'
             break;
         case '':
-           updateTerminal('error determining winner');
+            text = `error: ${text}`;   
            break;
-    };    
+    };
+    updateTerminal(text, playerSel, computerSel);
+    updateScoreBoard(playerScore, computerScore);
+                
 }
 
 function updateTerminal(text, playerSel, computerSel){
@@ -109,3 +111,9 @@ function updateScoreBoard(pScore,cScore){
     SBPlayer.textContent = pScore;
     SBComputer.textContent = cScore;
 }
+
+// exports
+module.exports = getComputerChoice;
+module.exports = playRound; 
+module.exports = cleanUpInput;
+module.exports = isValid;
